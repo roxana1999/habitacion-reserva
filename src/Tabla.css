@@ -1,0 +1,19 @@
+.tabla-detalles {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.tabla-detalles th, .tabla-detalles td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.tabla-detalles th {
+  background-color: #f4f4f4;
+}
+
+.tabla-detalles tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

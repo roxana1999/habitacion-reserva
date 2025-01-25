@@ -5,3 +5,12 @@ CREATE TABLE personas (
   correo VARCHAR(255) NOT NULL,
   telefono VARCHAR(20)
 );
+
+CREATE TABLE habitaciones (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  habitacion_piso INT CHECK (habitacion_piso > 0 AND habitacion_piso <= 10),
+  habitacion_nro INT CHECK (habitacion_nro > 0 AND habitacion_nro <= 20),
+  cant_camas INT CHECK (cant_camas >= 1 AND cant_camas <= 4),
+  tiene_television BOOLEAN,
+  tiene_frigobar BOOLEAN
+);
