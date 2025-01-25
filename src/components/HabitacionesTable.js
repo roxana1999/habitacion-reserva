@@ -59,8 +59,8 @@ const HabitacionesTable = () => {
                 <td>{h.habitacion_piso}</td>
                 <td>{h.habitacion_nro}</td>
                 <td>{h.cant_camas}</td>
-                <td>{h.tiene_television === null || h.tiene_television === 0 ? 'NO' : 'SI'}</td>
-                <td>{h.tiene_frigobar === null || h.tiene_frigobar === 0 ? 'NO' : 'SI'}</td>
+                <td>{h.tiene_television === null || h.tiene_television === 0 ? 'No' : 'Sí'}</td>
+                <td>{h.tiene_frigobar === null || h.tiene_frigobar === 0 ? 'No' : 'Sí'}</td>
               </tr>
             ))}
           </tbody>

@@ -1,10 +1,11 @@
 import './Tailwind.css';
 import PersonasTable from "./components/PersonasTable";
 import HabitacionesTable from './components/HabitacionesTable';
+import ReservasTable from './components/ReservasTable';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 //const Habitaciones = () => <h1>Hello from Habitaciones</h1>;
-const Reservas = () => <h1>Hello from Reservas</h1>;
+//const Reservas = () => <h1>Hello from Reservas</h1>;
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/personas" element={<PersonasTable />} />
           <Route path="/habitaciones" element={<HabitacionesTable />} />
-          <Route path="/reservas" element={<Reservas />} />
+          <Route path="/reservas" element={<ReservasTable />} />
         </Routes>
       </div>
     </Router>

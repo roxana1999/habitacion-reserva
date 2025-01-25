@@ -14,3 +14,15 @@ CREATE TABLE habitaciones (
   tiene_television BOOLEAN,
   tiene_frigobar BOOLEAN
 );
+
+CREATE TABLE reservas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  fecha_reserva DATETIME NOT NULL,
+  fecha_entrada DATETIME NOT NULL,
+  fecha_salida DATETIME NOT NULL,
+  habitacion_id INT,
+  persona_id INT,
+  monto_reserva INT,
+  FOREIGN KEY (habitacion_id) REFERENCES habitaciones(id),
+  FOREIGN KEY (persona_id) REFERENCES personas(id)
+);

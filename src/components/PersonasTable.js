@@ -42,7 +42,7 @@ const PersonasTable = () => {
             <tr>
               <th>ID</th>
               <th>Nombre Completo</th>
-              <th>Nro Documento</th>
+              <th>Nro. Documento</th>
               <th>Correo</th>
               <th>Teléfono</th>
             </tr>
