@@ -6,7 +6,7 @@ app.use(express.json()); // Permite manejar JSON en las solicitudes
 
 // Endpoint para obtener todas las personas
 app.get('/personas', (req, res) => {
-  const query = 'SELECT * FROM personas';
+  const query = 'SELECT * FROM personas ORDER BY nro_documento';
   db.query(query, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -17,7 +17,7 @@ app.get('/personas', (req, res) => {
 
 // Endpoint para obtener todas las habitaciones
 app.get('/habitaciones', (req, res) => {
-  const query = 'SELECT * FROM habitaciones';
+  const query = 'SELECT * FROM habitaciones ORDER BY habitacion_piso, habitacion_nro';
   db.query(query, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
