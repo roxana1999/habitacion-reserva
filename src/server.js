@@ -28,7 +28,20 @@ app.get('/habitaciones', (req, res) => {
 
 // Endpoint para obtener todas las reservas
 app.get('/reservas', (req, res) => {
-  const query = 'SELECT * FROM reservas';
+  const query = `SELECT 
+    r.id,
+    DATE_FORMAT(fecha_reserva, '%d/%m/%Y') AS fecha_reserva,
+    DATE_FORMAT(fecha_entrada, '%d/%m/%Y') AS fecha_entrada,
+    DATE_FORMAT(fecha_salida, '%d/%m/%Y') AS fecha_salida,
+    habitacion_id,
+    CONCAT('Piso ', h.habitacion_piso, ', Nro. ', h.habitacion_nro) habitacion_info,
+    persona_id,
+    nombre_completo,
+    FORMAT(monto_reserva, 0, 'de_DE') AS monto_reserva
+    FROM reservas r
+    join personas p ON r.persona_id = p.id
+    join habitaciones h ON r.habitacion_id = h.id
+  `;
   db.query(query, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });

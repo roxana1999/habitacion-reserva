@@ -40,8 +40,8 @@ const ReservasTable = () => {
               <th>Fecha de Reserva</th>
               <th>Fecha de Entrada</th>
               <th>Fecha de Salida</th>
-              <th>ID Habitación</th>
-              <th>ID Persona</th>
+              <th>Habitación</th>
+              <th>Persona</th>
               <th>Monto Reserva</th>
             </tr>
           </thead>
@@ -52,9 +52,9 @@ const ReservasTable = () => {
                 <td>{reserva.fecha_reserva}</td>
                 <td>{reserva.fecha_entrada}</td>
                 <td>{reserva.fecha_salida}</td>
-                <td>{reserva.habitacion_id}</td>
-                <td>{reserva.persona_id}</td>
-                <td>{reserva.monto_reserva}</td>
+                <td>{reserva.habitacion_info}</td>
+                <td>{reserva.nombre_completo}</td>
+                <td>{reserva.monto_reserva} Gs.</td>
               </tr>
             ))}
           </tbody>
