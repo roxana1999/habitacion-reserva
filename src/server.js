@@ -58,6 +58,11 @@ app.post('/personas/agregar', (req, res) => {
   const query = 'INSERT INTO personas (nombre_completo, nro_documento, correo, telefono) VALUES (?, ?, ?, ?)';
   db.query(query, [nombre_completo, nro_documento, correo, telefono], (err, result) => {
     if (err) {
+      console.log("Error al agregar persona");
+      console.log(err);
+      if (err.code === 'ER_DUP_ENTRY'){
+        return res.status(500).json({ error: `Ya existe una persona con el nro_documento "${nro_documento}".`});
+      }
       return res.status(500).json({ error: err.message });
     }
     res.status(201).json({ message: 'Persona creada', id: result.insertId });

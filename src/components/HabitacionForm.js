@@ -34,12 +34,12 @@ const HabitacionForm = ({ fetchHabitaciones }) => {
       }
       else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.error || 'Algo salió mal'} `);
+        alert(`Error: ${errorData.error || 'Algo salió mal.'} `);
       }
     }
     catch (error) {
       console.error('Error al crear la habitación:', error);
-      alert('Error al crear la habitación.');
+      alert('Ocurrió un error al procesar el request.');
     }
   };
 

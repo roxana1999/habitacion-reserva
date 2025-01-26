@@ -63,11 +63,11 @@ const ReservaForm = ({ fetchReservas }) => {
       } else {
         // If response is not OK, try to parse the error message from the response body
         const errorData = await response.json();
-        alert(`Error: ${errorData.error || 'Algo salió mal'} `);
+        alert(`Error: ${errorData.error || 'Algo salió mal.'} `);
       }
     } catch (error) {
       console.error('Error al agregar la reserva:', error);
-      alert('Error al crear la reserva');
+      alert('Ocurrió un error al procesar el request.');
     }
   };
 

@@ -21,23 +21,23 @@ const PersonaForm = ({ fetchPersonas }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to create Persona');
+      if (response.ok) {
+        alert('Persona creada exitosamente.');
+        setFormData({
+          nombre_completo: '',
+          nro_documento: '',
+          correo: '',
+          telefono: '',
+        });
+        fetchPersonas();
       }
-
-      const data = await response.json();
-      alert(`Persona creado con ID: ${data.id}`);
-      setFormData({
-        nombre_completo: '',
-        nro_documento: '',
-        correo: '',
-        telefono: '',
-      });
-      fetchPersonas();
+      else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.error || 'Algo salió mal.'} `);
+      }
     } catch (error) {
       console.error('Error:', error);
-      alert('Error al crear el Persona');
+      alert('Ocurrio un error al procesar el request.');
     }
   };
 
