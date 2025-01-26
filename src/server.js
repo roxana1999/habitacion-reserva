@@ -56,13 +56,33 @@ app.post('/habitaciones/agregar', (req, res) => {
   console.log("Agregar habitacion");
   console.log(req.body);
   const { habitacion_piso, habitacion_nro, cant_camas, tiene_television, tiene_frigobar } = req.body;
-  const query = 'INSERT INTO habitaciones (habitacion_piso, habitacion_nro, cant_camas, tiene_television, tiene_frigobar) VALUES (?, ?, ?, ?, ?)';
-  db.query(query, [habitacion_piso, habitacion_nro, cant_camas, tiene_television, tiene_frigobar], (err, result) => {
+  
+  // Verificar existencia de (nro_piso, nro_habitacion)
+  const verificar_existencia = `
+    SELECT * FROM habitaciones
+    WHERE habitacion_piso = ? AND habitacion_nro = ?
+  `;
+
+  db.query(verificar_existencia, [habitacion_piso, habitacion_nro], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    res.status(201).json({ message: 'Habitación creada', id: result.insertId });
-  });
+
+    if (results.length > 0) {
+      console.log("El par ya existe");
+      return res.status(400).json({ error: `La habitación del piso ${habitacion_piso} y nro ${habitacion_nro} ya existe.`});
+    }
+
+    const query = 'INSERT INTO habitaciones (habitacion_piso, habitacion_nro, cant_camas, tiene_television, tiene_frigobar) VALUES (?, ?, ?, ?, ?)';
+    db.query(query, [habitacion_piso, habitacion_nro, cant_camas, tiene_television, tiene_frigobar], (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.status(201).json({ message: 'Habitación creada', id: result.insertId });
+    });
+
+  }); 
+
 });
 
 app.post('/reservas/agregar', (req, res) => {

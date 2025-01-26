@@ -17,25 +17,30 @@ const HabitacionForm = ({ fetchHabitaciones }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch('/habitaciones/agregar', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(habitacion),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert('Habitación creada exitosamente');
-        console.log(data);
-        fetchHabitaciones(); // Call fetchHabitaciones to refresh the list
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('Error al crear habitación');
+    
+    try {
+      const response = await fetch('/habitaciones/agregar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(habitacion),
       });
+      if (response.ok) {
+        alert('Habitación creada exitosamente');
+        fetchHabitaciones();
+      }
+      else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.error || 'Algo salió mal'} `);
+      }
+    }
+    catch (error) {
+      console.error('Error al crear la habitación:', error);
+      alert('Error al crear la habitación.');
+    }
   };
 
   return (
