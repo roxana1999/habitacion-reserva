@@ -96,7 +96,7 @@ const ReservaForm = ({ fetchReservas }) => {
       </div>
       <div className="mb-3">
         <label className="block font-medium">Habitación</label>
-        <select
+        <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           name="habitacion_id"
           value={habitacion_id}
           onChange={(e) => setHabitacionId(e.target.value)}
@@ -114,7 +114,7 @@ const ReservaForm = ({ fetchReservas }) => {
       </div>
       <div className="mb-3">
         <label className="block font-medium">Persona</label>
-        <select
+        <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           name="persona_id"
           value={persona_id}
           onChange={(e) => setPersonaId(e.target.value)}
