@@ -25,6 +25,28 @@ const PersonasTable = () => {
     fetchPersonas(); // Only runs once when the component is mounted
   }, []);
 
+  const handleEliminar = async (id) => {
+    const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar esta persona?');
+    if (confirmacion) {
+      try {
+        const response = await fetch(`/personas/eliminar/${id}`, {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          alert('Persona eliminada con éxito.');
+          fetchPersonas(); // Refresh the list of personas
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.error || 'Algo salió mal.'} `);
+        }
+      } catch (error) {
+        console.error('Error al eliminar la persona:', error);
+        alert('Hubo un error al intentar eliminar la persona.');
+      }
+    }
+  };
+
   // Si los datos aún se están cargando, muestra un mensaje de carga
   if (loading) {
     return <div>Cargando...</div>;
@@ -45,6 +67,7 @@ const PersonasTable = () => {
               <th>Nro. Documento</th>
               <th>Correo</th>
               <th>Teléfono</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +78,14 @@ const PersonasTable = () => {
                 <td>{persona.nro_documento}</td>
                 <td>{persona.correo}</td>
                 <td>{persona.telefono}</td>
+                <td>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => handleEliminar(persona.id)}
+                >
+                  Eliminar
+                </button>
+                </td>
               </tr>
             ))}
           </tbody>

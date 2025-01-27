@@ -22,6 +22,28 @@ const ReservasTable = () => {
     fetchReservas();
   }, []);
 
+  const handleEliminar = async (id) => {
+    const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar esta reserva?');
+    if (confirmacion) {
+      try {
+        const response = await fetch(`/reservas/eliminar/${id}`, {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          alert('Reserva eliminada con éxito.');
+          fetchReservas();
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.error || 'Algo salió mal.'} `);
+        }
+      } catch (error) {
+        console.error('Error al eliminar la reserva:', error);
+        alert('Hubo un error al intentar eliminar la reserva.');
+      }
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -43,6 +65,7 @@ const ReservasTable = () => {
               <th>Habitación</th>
               <th>Persona</th>
               <th>Monto Reserva</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +78,14 @@ const ReservasTable = () => {
                 <td>{reserva.habitacion_info}</td>
                 <td>{reserva.nombre_completo}</td>
                 <td>{reserva.monto_reserva} Gs.</td>
+                <td>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => handleEliminar(reserva.id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

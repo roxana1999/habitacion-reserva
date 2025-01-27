@@ -55,17 +55,33 @@ app.post('/personas/agregar', (req, res) => {
   console.log("Agregar persona");
   console.log(req.body);
   const { nombre_completo, nro_documento, correo, telefono } = req.body;
-  const query = 'INSERT INTO personas (nombre_completo, nro_documento, correo, telefono) VALUES (?, ?, ?, ?)';
+  const query = 'INSERT INTO personas (nombre_completo, nro_documento, correo, telefono) VALUES (TRIM(?), TRIM(?), TRIM(?), TRIM(?))';
   db.query(query, [nombre_completo, nro_documento, correo, telefono], (err, result) => {
     if (err) {
       console.log("Error al agregar persona");
       console.log(err);
       if (err.code === 'ER_DUP_ENTRY'){
-        return res.status(500).json({ error: `Ya existe una persona con el nro_documento "${nro_documento}".`});
+        return res.status(500).json({ error: `Ya existe una persona con el nro_documento "${nro_documento.trim()}".`});
       }
       return res.status(500).json({ error: err.message });
     }
     res.status(201).json({ message: 'Persona creada', id: result.insertId });
+  });
+});
+
+// Endpoint para eliminar una persona
+app.delete('/personas/eliminar/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM personas WHERE id = ?';
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      if (err.code === 'ER_ROW_IS_REFERENCED_2'){
+        return res.status(500).json({ error: "No se puede eliminar. La persona ya tiene asignada una o más reservas." });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(200).json({ message: 'Persona eliminada exitosamente.' });
   });
 });
 
@@ -101,6 +117,22 @@ app.post('/habitaciones/agregar', (req, res) => {
 
   }); 
 
+});
+
+// Endpoint para eliminar una habitacion
+app.delete('/habitaciones/eliminar/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM habitaciones WHERE id = ?';
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      if (err.code === 'ER_ROW_IS_REFERENCED_2'){
+        return res.status(500).json({ error: "No se puede eliminar. La habitación ya se encuentra asignada a una o más reservas." });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(200).json({ message: 'Habitación eliminada exitosamente.' });
+  });
 });
 
 app.post('/reservas/agregar', (req, res) => {
@@ -156,6 +188,19 @@ app.post('/reservas/agregar', (req, res) => {
       res.status(201).json({ message: 'Reserva creada', id: result.insertId });
     });
   }); 
+});
+
+// Endpoint para eliminar una reserva
+app.delete('/reservas/eliminar/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM reservas WHERE id = ?';
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(200).json({ message: 'Reserva eliminada exitosamente.' });
+  });
 });
 
 // Iniciar el servidor
