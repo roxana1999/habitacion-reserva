@@ -15,6 +15,18 @@ app.get('/personas', (req, res) => {
   });
 });
 
+// Endpoint para obtener persona por id
+app.get('/personas/get_by_id/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM personas where ID = ?';
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
 // Endpoint para obtener todas las habitaciones
 app.get('/habitaciones', (req, res) => {
   const query = 'SELECT * FROM habitaciones ORDER BY habitacion_piso, habitacion_nro';
@@ -200,6 +212,34 @@ app.delete('/reservas/eliminar/:id', (req, res) => {
       return res.status(500).json({ error: err.message });
     }
     res.status(200).json({ message: 'Reserva eliminada exitosamente.' });
+  });
+});
+
+// Endpoint para actualizar persona por ID
+app.put('/personas/editar/:id', (req, res) => {
+  const { id } = req.params;
+  const { nombre_completo, correo, telefono } = req.body;
+
+  const query = `
+    UPDATE personas
+    SET 
+      nombre_completo = TRIM(?),
+      correo = TRIM(?),
+      telefono = TRIM(?)
+    WHERE id = ?
+  `;
+
+  db.query(query, [nombre_completo, correo, telefono, id], (err, result) => {
+    if (err) {
+      console.error('Error updating persona:', err);
+      return res.status(500).json({ error: 'Error interno del servidor.' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Persona no encontrada.' });
+    }
+
+    res.status(200).json({ message: 'Persona actualizada con éxito.' });
   });
 });
 

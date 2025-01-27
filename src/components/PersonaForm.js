@@ -1,12 +1,36 @@
 import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const PersonaForm = ({ fetchPersonas }) => {
+  const { id } = useParams(); // Get the persona ID from the URL
+  const isEditMode = Boolean(id); // Check if we're editing (if `id` exists)
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     nombre_completo: '',
     nro_documento: '',
     correo: '',
     telefono: '',
   });
+
+  useEffect(() => {
+    if (isEditMode) {
+      // Si se está editando, rellenar los campos del form
+      const fetchPersona = async () => {
+        try {
+          const response = await fetch(`/personas/get_by_id/${id}`);
+          const data = await response.json();
+          console.log("dats es", data);
+          setFormData(data[0]);
+        } catch (error) {
+          console.error('Error fetching persona:', error);
+        }
+      };
+      fetchPersona();
+    }
+  }, [id, isEditMode]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,21 +39,29 @@ const PersonaForm = ({ fetchPersonas }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const method = isEditMode ? 'PUT' : 'POST';
+    const url = isEditMode ? `/personas/editar/${id}` : '/personas/agregar';
     try {
-      const response = await fetch('/personas/agregar', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method: method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        alert('Persona creada exitosamente.');
-        setFormData({
-          nombre_completo: '',
-          nro_documento: '',
-          correo: '',
-          telefono: '',
-        });
-        fetchPersonas();
+        if (isEditMode){
+          alert("Persona actualizada con éxito.");
+          navigate('/personas');
+        }
+        else {
+          alert('Persona creada exitosamente.');
+          setFormData({
+            nombre_completo: '',
+            nro_documento: '',
+            correo: '',
+            telefono: '',
+          });
+          fetchPersonas();
+        }
       }
       else {
         const errorData = await response.json();
@@ -37,13 +69,13 @@ const PersonaForm = ({ fetchPersonas }) => {
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Ocurrio un error al procesar el request.');
+      alert('Ocurrió un error al procesar la solicitud.');
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-4 border rounded shadow-md max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Crear Persona</h2>
+      <h2 className="text-xl font-bold mb-4">{isEditMode ? 'Editar Persona' : 'Crear Persona'}</h2>
       <div className="mb-3">
         <label htmlFor="nombre_completo" className="block font-medium">Nombre Completo</label>
         <input
@@ -66,6 +98,7 @@ const PersonaForm = ({ fetchPersonas }) => {
           onChange={handleChange}
           required
           className="border rounded w-full p-2"
+          disabled={isEditMode} // Deshabilitar campo en Modo edición
         />
       </div>
       <div className="mb-3">
@@ -90,7 +123,7 @@ const PersonaForm = ({ fetchPersonas }) => {
           className="border rounded w-full p-2"
         />
       </div>
-      <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Crear Persona</button>
+      <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">{isEditMode ? 'Guardar cambios' : 'Crear'}</button>
     </form>
   );
 };

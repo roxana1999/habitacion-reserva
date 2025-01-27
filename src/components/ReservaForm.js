@@ -67,7 +67,7 @@ const ReservaForm = ({ fetchReservas }) => {
       }
     } catch (error) {
       console.error('Error al agregar la reserva:', error);
-      alert('Ocurrió un error al procesar el request.');
+      alert('Ocurrió un error al procesar la solicitud.');
     }
   };
 

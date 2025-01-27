@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PersonaForm from './PersonaForm';
 import '../Tabla.css';
+import { useNavigate } from 'react-router-dom';
 
 const PersonasTable = () => {
+  const navigate = useNavigate();
+
   const [personas, setPersonas] = useState([]); // Estado para almacenar las personas
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
 
@@ -79,12 +82,18 @@ const PersonasTable = () => {
                 <td>{persona.correo}</td>
                 <td>{persona.telefono}</td>
                 <td>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => handleEliminar(persona.id)}
-                >
-                  Eliminar
-                </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => handleEliminar(persona.id)}
+                  >
+                    Eliminar
+                  </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => navigate(`/personas/editar/${persona.id}`)}
+                  >
+                    Editar
+                  </button>
                 </td>
               </tr>
             ))}

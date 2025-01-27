@@ -3,7 +3,7 @@ import PersonasTable from "./components/PersonasTable";
 import HabitacionesTable from './components/HabitacionesTable';
 import ReservasTable from './components/ReservasTable';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-
+import PersonaForm from './components/PersonaForm';
 //const Habitaciones = () => <h1>Hello from Habitaciones</h1>;
 //const Reservas = () => <h1>Hello from Reservas</h1>;
 
@@ -25,6 +25,7 @@ function App() {
           <Route path="/personas" element={<PersonasTable />} />
           <Route path="/habitaciones" element={<HabitacionesTable />} />
           <Route path="/reservas" element={<ReservasTable />} />
+          <Route path="/personas/editar/:id" element={<PersonaForm />} />
         </Routes>
       </div>
     </Router>
