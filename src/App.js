@@ -1,4 +1,3 @@
-import './Tailwind.css';
 import PersonasTable from "./components/PersonasTable";
 import HabitacionesTable from './components/HabitacionesTable';
 import ReservasTable from './components/ReservasTable';
