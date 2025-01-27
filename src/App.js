@@ -21,6 +21,7 @@ function App() {
       {/* Routes */}
       <div className="p-4">
         <Routes>
+          <Route path="/" element={<ReservasTable />} />
           <Route path="/personas" element={<PersonasTable />} />
           <Route path="/habitaciones" element={<HabitacionesTable />} />
           <Route path="/reservas" element={<ReservasTable />} />
