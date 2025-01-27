@@ -39,7 +39,7 @@ const HabitacionForm = ({ fetchHabitaciones }) => {
     }
     catch (error) {
       console.error('Error al crear la habitación:', error);
-      alert('Ocurrió un error al procesar el request.');
+      alert('Ocurrió un error al procesar la solicitud.');
     }
   };
 
