@@ -2,9 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Node version
+v22.12.0
+
+## Npm version
+11.0.0
+
+## MySQL version
+8.0.41
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+Installs all modules listed as dependencies in <b>package.json</b>.
 
 ### `npm start`
 
